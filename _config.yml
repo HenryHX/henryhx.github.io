@@ -3,7 +3,7 @@ title: 'HenryHX的独立博客'
 description: '学习 思考 创新 分享'
 keyword: 'C# WPF ASP.NET JS'
 url: 'https://henryhx.github.io/' # your host
-baseurl: /
+baseurl: '/'
 
 # Navigation links
 nav:
