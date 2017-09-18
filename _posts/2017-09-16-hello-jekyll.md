@@ -1,10 +1,10 @@
----
+q---
 layout: post
 title: 'Hello Jekyll'
 date: 2017-09-16
 author: HenryHX
 cover: '/assets/img/2017-09-16-hello-jekyll/jekyll-banner.png'
-tags: jekyll, blog
+tags: jekyll blog
 ---
 
 > 利用Jekyll和GitHub Pages搭建静态博客网站。
@@ -96,6 +96,19 @@ Server running... press ctrl-c to stop.
 
 ### 发布
 本地确认文章无误，可以通过git add,git commit,git push等git命令推送Jekyll项目到Github Pages服务器，这样代码便部署上去了。之后即可通过网址`[username].github.io`（在Github Pages步骤一配置）直接访问到个人博客咯。
+
+### 绑定域名
+打开settings，有一个`Github Pages`的设置，在`Custom domain`内输入期望绑定的域名，然后点击 Save,此时Github将会在repository中添加一个文件`CNAME`。
+![github-page-setting.jpg](/assets/img/2017-09-16-hello-jekyll/github-page-setting.jpg "Github Pages")
+
+购买域名的方式还是挺多的,我个人比较倾向于Godaddy，支付的时候选择**支付宝**就可以了。域名已经买完了，直接是没法用的，因为没有进行DNS解析，别人是没法正常通过域名访问你的页面的，国内的话推荐使用DNSPod进行解析，服务免费稳定，而且速度行业比较快。
+
+具体修改DNS方法可以参考DNSPod官方教程：[Godaddy注册商域名修改DNS地址](https://support.dnspod.cn/Kb/showarticle/tsid/42/)
+
+此外还需在DNSPod自己的域名下添加两条A记录，地址就是Github Pages的服务IP地址：`192.30.252.153`和`192.30.252.154`。
+![dns.jpg](/assets/img/2017-09-16-hello-jekyll/dns.jpg "dns设置")
+
+至此，所有的内容就完成了，需要等一阵子，时间不超过72小时(一般很快），让域名切换到新的解析DNS上。之后你可以直接访问你的域名看看是不是成功了。
 
 ### 总结
 **今天一小步 未来一大步**
