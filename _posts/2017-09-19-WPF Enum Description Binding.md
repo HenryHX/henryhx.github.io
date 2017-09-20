@@ -13,7 +13,7 @@ tags: WPF Binding
 
 C#用Enum关键字用于声明枚举，即一种由一组称为枚举数列表的命名常数组成的独特类型。每种枚举类型都有基础类型，该类型可以是除char 以外的任何整型。即：(byte, sbyte, short, ushort, int, uint, long和ulong)，如果想要Enumeration变量返回一点有意义的string，从而用户能知道分别代表什么，则可以添加DescriptionAttribute，如下
 
-{% highlight csharp %}
+```C#
     /// <summary>
     /// HedgeFlagType是一个投机套保标志类型
     /// </summary>
@@ -26,7 +26,7 @@ C#用Enum关键字用于声明枚举，即一种由一组称为枚举数列表�
         [Description("套保")]
         STP_HF_Hedge = '3',
     }
-{% endhighlight %}
+```
 
 上述枚举类型eSTPHedgeFlag是期权交易使用的一个自定义类型，要使用户可以在界面中选择对应的变量，通常可以采用`ObjectDataProvider`进行MVVM模式下的绑定：
 
