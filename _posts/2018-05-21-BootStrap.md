@@ -3,7 +3,7 @@ layout: post
 title: 'BootStrap'
 date: 2018-05-21
 author: HenryHX
-cover: '/assets/img/2018-05-21-BootStrap/BootStrap.jpg'
+cover: '/assets/img/2018-05-21-BootStrap/BootStrap.png'
 tags: BootStrap Excel
 ---
 
@@ -55,10 +55,79 @@ $("#xlf").filestyle('clear');
 <script src="../js/exceljs/shim.min.js"></script>
 <script src="../js/exceljs/xlsx.full.min.js"></script>
 
-importData = XLSX.utils.sheet_to_json(ws, {header:["comboId","exchangeId","instrumentId","direction","value", "selected"]});
-importData.shift();//shift() 方法用于把数组的第一个元素从其中删除，并返回第一个元素的值。
-$("#AdjustPreviewTable").bootstrapTable('load', importData);
- 
+var X = XLSX;
+var importData;
+var previewData;
+    
+function add_eventListener() {
+    var xlf = document.getElementById('xlf');
+    if(!xlf.addEventListener)
+        return;
+    function handleFile(e) {
+        do_file(e.target.files);
+        if(xlf.value != '')
+        {
+            $("#importModal" + " " + ".next-page").removeClass("disabled");
+        }
+        else
+        {
+            $("#importModal" + " " + ".next-page").addClass("disabled");
+        }
+    }
+    xlf.addEventListener('change', handleFile, false);
+}
+  
+var do_file =  function do_file(files) {
+    // var rABS = typeof FileReader !== "undefined" && (FileReader.prototype||{}).readAsBinaryString;
+
+    var f = files[0];
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        if(typeof console !== 'undefined') console.log("onload", new Date());
+        var data = e.target.result;
+        process_wb(X.read(data, {type:'binary'}));
+    };
+    reader.readAsBinaryString(f);
+};
+
+var process_wb = function process_wb(wb) {
+    /* get data */
+    var ws = wb.Sheets[wb.SheetNames[0]];
+    importData = XLSX.utils.sheet_to_json(ws, {header:["comboId","exchangeId","instrumentId","direction","value", "selected"]});
+    importData.shift();
+
+
+    while(importData.length > 3999)
+    {
+        importData.pop();
+    }
+
+    for (var i=0;i<importData.length;i++)
+    {
+        var dir =  parseInt(importData[i]["direction"]);
+        if(dir == 1)
+        {
+            importData[i]["directionStr"] = "增加";
+        }
+        else if(dir == 2)
+        {
+            importData[i]["directionStr"] = "减少";
+        }
+        else
+        {
+            importData[i]["directionStr"] = "未定义";
+        }
+
+        if(isNaN(importData[i]["value"]))
+        {
+            importData[i]["value"] = "未定义";
+        }
+    }
+
+    $("#AdjustPreviewTable").bootstrapTable('load', importData);
+    // if(typeof console !== 'undefined') console.log("output", new Date(), importData);
+};
+  
 <table data-toggle="table" id="AdjustPreviewTable" class="table table-bordered" data-pagination="false">
 	<thead>
 		<tr>
@@ -71,6 +140,7 @@ $("#AdjustPreviewTable").bootstrapTable('load', importData);
 		</tr>
 	</thead>
 </table>
+
 ```
 
 ### 总结
